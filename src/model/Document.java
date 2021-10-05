@@ -1,5 +1,8 @@
 package model;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintWriter;
 import java.io.Serializable;
 
 public class Document implements Serializable{
@@ -33,8 +36,16 @@ public class Document implements Serializable{
         this.contents = contents;
     }
 
-    public void save(){
+    public void save(String filename){
         //TODO Complete Save method
+        try {
+            PrintWriter printWriter = new PrintWriter(new FileOutputStream(filename));
+
+            printWriter.write(contents);
+            printWriter.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public Document clone(){
