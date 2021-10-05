@@ -1,45 +1,50 @@
 package model.strategies;
 
-import model.Document;
-
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Volatile VersionStrategy (default strategy)
- * For each document change, the mechanism keeps the previous version of the
- * document in a main memory list of subsequent document versions.
- */
-public class VolatileVersionsStrategy implements VersionsStrategy{
-    private List<Document> versionsHistory;
+import model.Document;
 
-    public VolatileVersionsStrategy() {
-        versionsHistory = new ArrayList<>();
-    }
+public class VolatileVersionsStrategy implements VersionsStrategy {
+	private final ArrayList<Document> history;
+	
+	public VolatileVersionsStrategy() {
+		super();
+		history = new ArrayList<>();
+	}
 
-    @Override
-    public void putVersion(Document document) {
-        versionsHistory.add(document);
-    }
+	@Override
+	public void putVersion(Document document) {
 
-    @Override
-    public Document getVersion() {
-        return versionsHistory.size() > 0 ? versionsHistory.get(versionsHistory.size() - 1) : null;
-    }
+		Document doc = document.clone();
+		history.add(doc);
+	}
 
-    @Override
-    public void setEntireHistory(List<Document> documents) {
-        versionsHistory.clear();
-        versionsHistory.addAll(documents);
-    }
+	@Override
+	public Document getVersion() {
 
-    @Override
-    public List<Document> getEntireHistory() {
-        return versionsHistory;
-    }
+		if(history.size() == 0)
+			return null;
+		return history.get(history.size() - 1);
+	}
 
-    @Override
-    public void removeVersion() {
-        if(versionsHistory.size() >0) versionsHistory.remove(versionsHistory.size() - 1);
-    }
+	@Override
+	public void setEntireHistory(List<Document> documents) {
+
+		history.clear();
+		history.addAll(documents);
+	}
+
+	@Override
+	public List<Document> getEntireHistory() {
+
+		return history;
+	}
+
+	@Override
+	public void removeVersion() {
+
+		history.remove(history.size() - 1);
+	}
+
 }
