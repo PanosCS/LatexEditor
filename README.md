@@ -1,8 +1,6 @@
 # Latex Editor
+An application that facilitates the writing and maintenance of Latex documents.
 
-An application that facilitates the writing
-and maintenance of Latex documents.
----
 ## Purpose
 Latex is a well known high quality document preparation markup language. It provides a large
 variety of styles and commands that enable advanced document formatting. Typically, a Latex document
